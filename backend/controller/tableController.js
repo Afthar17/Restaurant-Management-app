@@ -21,3 +21,32 @@ export const addTable = async (req, res) => {
     res.status(500).json({ message: "Error adding table " + error.message });
   }
 };
+
+export const getAllTables = async (req, res) => {
+  try {
+    const tables = await Table.find({});
+    res.status(200).json({ message: "Tables fetched successfully", tables });
+  } catch (error) {
+    res.status(500).json({ message: "Error fetching tables " + error.message });
+  }
+};
+
+export const toggleAvailability = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const table = await Table.findById(id);
+    if (!table) {
+      return res.status(404).json({ message: "Table not found" });
+    }
+    table.isAvailable = !table.isAvailable;
+    await table.save();
+    const tables = await Table.find();
+    res
+      .status(200)
+      .json({ message: "Availability toggled successfully", tables });
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: "Error togle availability of tables " + error.message });
+  }
+};

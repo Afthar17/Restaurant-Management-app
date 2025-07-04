@@ -7,9 +7,9 @@ import productRoutes from "./routes/productRoute.js";
 import cartRoutes from "./routes/cartRoutes.js";
 import tableRoutes from "./routes/tableRoutes.js";
 import bookingRoutes from "./routes/bookingRoutes.js";
+import { server, app } from "./lib/socket.js";
 
 dotenv.config();
-const app = express();
 
 connectDB();
 
@@ -24,6 +24,6 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/tables", tableRoutes);
 app.use("/api/bookings", bookingRoutes);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`server is running on port ${port}`);
 });
